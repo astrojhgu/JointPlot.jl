@@ -1,0 +1,10 @@
+name = "JointPlot"
+uuid = "07ff884e-5154-11e9-0b03-93a622ae5acf"
+authors = ["Gu Junhua <jhgu@nao.cas.cn>"]
+version = "0.1.0"
+
+[deps]
+StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+ImageFiltering = "6a3955dd-da59-5b1f-98d4-e7296123deb5"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
