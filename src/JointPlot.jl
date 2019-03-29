@@ -12,13 +12,14 @@ end
 
 struct ParamInfo
     name::String
+    col::Int
     range::Union{Missing, Tuple{Float64, Float64}}
     nbins::Int
     central_value::Union{Missing, Float64}
     smooth_scale::Float64
 end
 
-function load_param_info(param_term::Dict)::ParamInfo
+function load_param_info(param_term::Dict, col::Int)::ParamInfo
     name=param_term["param"]
     range=if haskey(param_term, "range")
         (param_term["range"][1],param_term["range"][2])
@@ -31,12 +32,20 @@ function load_param_info(param_term::Dict)::ParamInfo
     else
         missing
     end
+
+    col=if haskey(param_term,"col")
+        param_term["col"]
+    else
+        println("Warning, key col absent, using param order")
+        col
+    end
+
     smooth_cale=if haskey(param_term, "smooth_scale")
         param_term["smooth_scale"]
     else
         1.0
     end
-    ParamInfo(name,range,nbins,central_value,smooth_cale)
+    ParamInfo(name, col,range,nbins,central_value,smooth_cale)
 end
 
 function calculate_histogram(data::AbstractArray, param::ParamInfo)::Histogram{Float64,1}
@@ -77,7 +86,7 @@ end
 
 
 function calculate_histograms(data, cfg::Dict)::JointDist
-    params=[load_param_info(p) for p in cfg["params"]]
+    params=[load_param_info(p, i) for (i,p) in enumerate(cfg["params"])]
     pnames=[p.name for p in params]
     nparams=length(params)
     println(nparams)
