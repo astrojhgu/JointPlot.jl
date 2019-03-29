@@ -94,8 +94,8 @@ function calculate_histograms(data, cfg::Dict)::JointDist
 
     #hist=[calculate_histogram(data[:,i], params[i]) for i in 1:nparams]
     hist=
-    [vcat([calculate_histogram2(data[:,i], data[:,j],
-    params[i],params[j]) for j in 1:i-1], calculate_histogram(data[:,i], params[i])) for i in 1:nparams]
+    [vcat([calculate_histogram2(data[:,j],data[:,i],
+    params[j],params[i]) for j in 1:i-1], calculate_histogram(data[:,i], params[i])) for i in 1:nparams]
     JointDist(pnames,hist)
 end
 
